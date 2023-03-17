@@ -53,3 +53,8 @@ variable "mail_command" {
   description = "Command to execute"
   default     = "mutt"
 }
+
+variable "mail_install" {
+  description = "Install the command"
+  default     = "false"
+}

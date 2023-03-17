@@ -31,6 +31,16 @@ resource "local_file" "body" {
   filename = "${path.module}/body/${local.body_file}"
 }
 
+resource "null_resource" "install" {
+  count = "${var.mail_install == "true" ? 1 : 0}"
+  provisioner "local-exec" {
+    command = "sudo apt install ${var.mail_command}"
+    interpreter = ["bash", "-c"]
+  }
+  triggers = {
+    always = timestamp()
+  }
+}
 resource "null_resource" "default" {
   count = "${var.enabled == "true" ? 1 : 0}"
 
@@ -44,14 +54,13 @@ resource "null_resource" "default" {
   provisioner "local-exec" {
     command = "${local.command}"
     interpreter = ["bash", "-c"]
-
-    on_failure = "fail"
   }
 
   depends_on = [
     data.template_file.body, 
     data.template_file.subject,
     local_file.body,
-    local_file.default
+    local_file.default,
+    null_resource.install
   ]
 }
