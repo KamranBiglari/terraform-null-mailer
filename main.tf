@@ -34,7 +34,7 @@ resource "local_file" "body" {
 resource "null_resource" "install" {
   count = "${var.mail_install == "true" ? 1 : 0}"
   provisioner "local-exec" {
-    command = "sudo apt install ${var.mail_command} -y"
+    command = "apt install ${var.mail_command} -y"
     interpreter = ["bash", "-c"]
   }
   triggers = {
