@@ -12,6 +12,8 @@ sudo apt install mutt
 
 ```
 module "terraform-null-mailer" {
+  source  = "KamranBiglari/mailer/null"
+  version = "1.0.0"
   smtp_url   = "smtp://example@hotmail.com@smtp.office365.com:587/"
   password   = "password"
   from       = "example@hotmail.com"
